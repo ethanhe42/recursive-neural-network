@@ -69,11 +69,19 @@ class RNN_Model():
         '''
         with tf.variable_scope('Composition'):
             ### YOUR CODE HERE
-            pass
+            embedding = tf.get_variable('embedding', 
+                shape=[len(self.vocab),
+                self.config.embed_size])
+            W1=tf.get_variable('W1', 
+                shape=[2*self.config.embed_size, self.config.embed_size])
+            b1=tf.get_variable('b1',shape=[1,self.config.embed_size])
+
+            
             ### END YOUR CODE
         with tf.variable_scope('Projection'):
             ### YOUR CODE HERE
-            pass
+            U=tf.get_variable('U',shape=[self.config.embed_size,self.config.label_size])
+            bs=tf.get_variable('bs',shape=[1, self.config.label_size])
             ### END YOUR CODE
 
     def add_model(self, node):
@@ -279,17 +287,17 @@ class RNN_Model():
 
             #save if model has improved on val
             if val_loss < best_val_loss:
-                 shutil.copyfile('./weights/%s.temp'%self.config.model_name, './weights/%s'%self.config.model_name)
-                 best_val_loss = val_loss
-                 best_val_epoch = epoch
+                shutil.copyfile('./weights/%s.temp'%self.config.model_name,     './weights/%s'%self.config.model_name)
+                best_val_loss = val_loss
+                best_val_epoch = epoch
 
             # if model has not imprvoved for a while stop
             if epoch - best_val_epoch > self.config.early_stopping:
                 stopped = epoch
                 #break
         if verbose:
-                sys.stdout.write('\r')
-                sys.stdout.flush()
+            sys.stdout.write('\r')
+            sys.stdout.flush()
 
         print '\n\nstopped at %d\n'%stopped
         return {
@@ -333,4 +341,4 @@ def test_RNN():
     print 'Test acc: {}'.format(test_acc)
 
 if __name__ == "__main__":
-        test_RNN()
+    test_RNN()

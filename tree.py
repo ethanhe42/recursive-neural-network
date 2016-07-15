@@ -1,4 +1,6 @@
 import random
+import pdb
+
 UNK = 'UNK'
 # This file contains the dataset in a useful way. We populate a list of
 # Trees to train/test our Neural Nets such that each Tree contains any
@@ -160,3 +162,7 @@ def binarize_labels(trees):
     for tree in trees:
         leftTraverse(tree.root, binarize_node, None)
         tree.labels = get_labels(tree.root)
+
+if __name__=="__main__":
+    tre = loadTrees()
+    print tre
